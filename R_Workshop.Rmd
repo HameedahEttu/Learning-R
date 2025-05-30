@@ -137,15 +137,20 @@ This is okay, but a little clunky. Alternatively we can set the gene identifiers
 ```{r 'index by rowname'}
 # 1  Set the gene identifiers to row names in `scaledcounts`.
 
-rownames(scaledcounts) <- scaledcounts$ensgene
+#rownames(scaledcounts) <- scaledcounts$ensgene
 #rownames(scaledcounts, prefix = "gene_id")
-scaledcounts <- subset(scaledcounts, select = (-ensgene))
+
+# 2 Remove the `ensgene` column.
+
+#scaledcounts <- subset(scaledcounts, select = (-ensgene))
 
 # 3  Extract the gene expression values using the string "ENSG00000002549" directly.
 
-filter(scaledcounts, = "ENSG00000002549")
+scaledcounts["ENSG00000002549",]
 
-head(scaledcounts)
+
+
+#head(scaledcounts)
 
 ```
 
@@ -155,8 +160,13 @@ Alternative to steps 1 + 2 above, we could have set gene identifiers to row name
 
 ```{r 'assign rownames'}
 # 1 Look up the help page for `read.csv()` using `?read.csv`, scroll down to the `row.names` in the "Arguments" section.  
+?read.csv
 
 # 2 Use these instructions to reread in `scaledcounts` and set the gene identifiers to row names automatically.
+
+scaledcounts<-read.csv("airway_scaledcounts.csv", row.names = 1)
+
+head(scaledcounts)
 ```
 
 # Working with `matrix ` objects
@@ -167,10 +177,13 @@ For gene expression it is common to work with log-scaled count data because thes
 
 ```{r 'make a matrix'}
 # 1 Use the `as.matrix()` function to convert `scaledcounts` to a matrix.
+as.matrix(scaledcounts)
 
 # 2 Add a pseudocount to every value.
+scaledcounts = scaledcounts + 1
 
 # 3 Use the `log2()` function to log-scale the matrix.
+log2(scaledcounts)
 ```
 
 # Running simple comparative statistical analyses
