@@ -75,11 +75,6 @@ Let's begin first by setting our working directory. Set your working directory t
 #Find working directory
 getwd()
 
-#Set working directory path
-#setwd("/Users/tanyatk/Desktop/R_Workshop/")
-
-#Check working directory again
-#getwd()
 ```
 
 
@@ -137,12 +132,12 @@ This is okay, but a little clunky. Alternatively we can set the gene identifiers
 ```{r 'index by rowname'}
 # 1  Set the gene identifiers to row names in `scaledcounts`.
 
-#rownames(scaledcounts) <- scaledcounts$ensgene
-#rownames(scaledcounts, prefix = "gene_id")
+rownames(scaledcounts) <- scaledcounts$ensgene
+rownames(scaledcounts, prefix = "gene_id")
 
 # 2 Remove the `ensgene` column.
 
-#scaledcounts <- subset(scaledcounts, select = (-ensgene))
+scaledcounts <- subset(scaledcounts, select = (-ensgene))
 
 # 3  Extract the gene expression values using the string "ENSG00000002549" directly.
 
