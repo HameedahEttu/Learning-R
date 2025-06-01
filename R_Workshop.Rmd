@@ -33,15 +33,15 @@ Use bioclite("package_name") function to install packages SummarizedExperiment, 
 
 
 ```{r "install", eval = FALSE}
-#packages <- c("readr", "ggplot2", "dplyr", "magrittr")
-#install.packages(packages, dependencies = TRUE)
+packages <- c("readr", "ggplot2", "dplyr", "magrittr")
+install.packages(packages, dependencies = TRUE)
 
-#if(!require("BiocManager", quietly = TRUE))
-#      install.packages("BiocManager")
-#BiocManager::install(version = "3.21")
+if(!require("BiocManager", quietly = TRUE))
+      install.packages("BiocManager")
+BiocManager::install(version = "3.21")
    
-#BiocManager::install("SummarizedExperiment", dependencies = TRUE)
-#BiocManager::install("DESeq2", dependencies = TRUE)
+BiocManager::install("SummarizedExperiment", dependencies = TRUE)
+BiocManager::install("DESeq2", dependencies = TRUE)
 BiocManager::install("airway", dependencies = TRUE, force = TRUE)
 
 ```
@@ -50,7 +50,7 @@ BiocManager::install("airway", dependencies = TRUE, force = TRUE)
 ```
 ```{r}
 BiocManager::install(c("lattice", "mgcv"), lib = "C:/Users/BARIU/AppData/Local/R/win-library/4.5")
-#remove.packages(c("lattice", "mgcv"), lib = "C:/Program Files/R/R-4.5.0/library")
+remove.packages(c("lattice", "mgcv"), lib = "C:/Program Files/R/R-4.5.0/library")
 ```
 
 Load these libraries using library("package_name") function:
@@ -74,6 +74,7 @@ Let's begin first by setting our working directory. Set your working directory t
 ```{r "set working directory", eval = FALSE}
 #Find working directory
 getwd()
+
 
 ```
 
@@ -178,7 +179,9 @@ as.matrix(scaledcounts)
 scaledcounts = scaledcounts + 1
 
 # 3 Use the `log2()` function to log-scale the matrix.
-log2(scaledcounts)
+scaledcounts <- log2(scaledcounts)
+
+as.matrix(scaledcounts)
 ```
 
 # Running simple comparative statistical analyses
@@ -195,6 +198,15 @@ The t-test is a common choice for performing a differential analysis. Next we wi
 
 ```{r 'ttest', eval = FALSE}
 # 1 Create a new data.frame called `genedata` with two columns: 1) log-transformed expression values of "ENSG00000002549" and 2) group values from the "dex" variable. Call the columns "ex" and "group", respectively. 
+
+ex <- scaledcounts["ENSG00000002549",]
+group <- metadata[,"dex"]
+genedata <- data.frame(group)
+
+
+head(genedata)
+
+?as.vector
 
 # 2 Run the following to use the `t.test()` function to compare the log transformed expression values between treated and control samples with pooled variance (var.equal = TRUE).
 ttestRes <- t.test(ex ~ group, data = genedata, var.equal = TRUE)
