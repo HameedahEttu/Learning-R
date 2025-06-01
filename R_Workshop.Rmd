@@ -163,6 +163,8 @@ Alternative to steps 1 + 2 above, we could have set gene identifiers to row name
 scaledcounts<-read.csv("airway_scaledcounts.csv", row.names = 1)
 
 head(scaledcounts)
+
+
 ```
 
 # Working with `matrix ` objects
@@ -199,14 +201,12 @@ The t-test is a common choice for performing a differential analysis. Next we wi
 ```{r 'ttest', eval = FALSE}
 # 1 Create a new data.frame called `genedata` with two columns: 1) log-transformed expression values of "ENSG00000002549" and 2) group values from the "dex" variable. Call the columns "ex" and "group", respectively. 
 
-ex <- scaledcounts["ENSG00000002549",]
-group <- metadata[,"dex"]
-genedata <- data.frame(group)
+ex <- t(scaledcounts["ENSG00000002549",])
+group <- (metadata[,"dex"])
 
+genedata <- data.frame(group,ex)
 
 head(genedata)
-
-?as.vector
 
 # 2 Run the following to use the `t.test()` function to compare the log transformed expression values between treated and control samples with pooled variance (var.equal = TRUE).
 ttestRes <- t.test(ex ~ group, data = genedata, var.equal = TRUE)
@@ -215,6 +215,8 @@ ttestRes <- t.test(ex ~ group, data = genedata, var.equal = TRUE)
 Note that the syntax at the begining of this function, you will see it a lot.  Look up ?formula for more information. This is common in functions for statistical modelling, as well as base R plotting functions.  For example, instead of running a t-test we could run a linear model.
 
 ```{r 'linear model', eval = FALSE}
+#?formula
+
 lmRes <- lm(ex ~ group, data = genedata)
 print(summary(lmRes))
 ```
