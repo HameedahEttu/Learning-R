@@ -201,7 +201,7 @@ The t-test is a common choice for performing a differential analysis. Next we wi
 
 ex <- scaledcounts["ENSG00000002549",]
 group <- metadata[,"dex"]
-genedata <- data.frame(group, ex)
+genedata <- data.frame(group)
 
 
 head(genedata)
